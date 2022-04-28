@@ -1,13 +1,55 @@
-.pokemon-details {
-    background-color: aquamarine;
-    padding: calc(8px + 1.5625vw);
+.pokemon-details,.pokemon-details_hw {
+  padding: calc(8px + 1.5625vw);
+}
+
+p {
+    margin-bottom: 0;
 }
 
 .pokemon-details > header {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .pokemon-details .badge {
-    background-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.pd_card {
+  display: flex;
+  border-radius: 10px;
+  padding: 10px;
+  justify-content: space-around;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+}
+
+.pd_card span {
+    opacity: .4;
+    font-size: 0.9em;
+}
+
+.pd_card p {
+    font-weight: 600;
+}
+
+.pokemon-details_hw > h6 {
+    margin-top: calc(8px + 1.5625vw);
+}
+
+.pd_listaHabilidade {
+    list-style-type: none;
+}
+
+.pd_listaHabilidade i {
+    color:green;
+}
+
+.pd_item_habilidade {
+    display: flex;
+}
+
+.tab-pane > div {
+    padding: calc(8px + 1.5625vw);
 }
