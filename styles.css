@@ -1,4 +1,28 @@
-.pokemon-details,.pokemon-details_hw {
+.card-pokemon {
+    background-color: #757575;
+    padding: .5vw;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+.card-pokemon:hover {
+    transform: scale(1.05);
+}
+
+
+.card-pokemon .card-body {
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+
+.pokemon_badge {
+    background-color: #757575;
+    opacity: .5;
+}
+
+
+/* CSS - DETALHES SOBRE POKEMON */
+.pokemon-details,.pokemon-details_hw,.container{
   padding: calc(8px + 1.5625vw);
 }
 
