@@ -1,0 +1,13 @@
+.pokemon-details {
+    background-color: aquamarine;
+    padding: calc(8px + 1.5625vw);
+}
+
+.pokemon-details > header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pokemon-details .badge {
+    background-color: rgba(255, 255, 255, 0.25);
+}
