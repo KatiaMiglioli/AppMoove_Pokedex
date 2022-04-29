@@ -22,16 +22,16 @@
 .container#cards div#item-card,
 .container#carregando,
 .container#details {
-    display: none;
-    border-radius: 10px;
+  display: none;
+  border-radius: 10px;
 }
 
 #pagina-vazia {
-    display: flex;
-    justify-content: center;
-    margin-top: 10%;
-    color: #757575;
-    opacity: .2;
+  display: flex;
+  justify-content: center;
+  margin-top: 10%;
+  color: #757575;
+  opacity: 0.2;
 }
 
 /* CSS - DETALHES SOBRE POKEMON */
@@ -55,57 +55,47 @@ p {
 }
 
 #pokemon-details_intro h1 {
-    text-transform: capitalize;
+  text-transform: capitalize;
 }
 
-.pd_card {
-  display: flex;
-  border-radius: 10px;
+.card-infos {
+  background-color: aliceblue;
   padding: 10px;
+  border-radius: 5px;
+}
+
+#pokemon-sobre-heigth_Width {
+  padding: 10px;
+  display: flex;
   justify-content: space-around;
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 }
 
-.pd_card span {
-  opacity: 0.4;
-  font-size: 0.9em;
-}
-
-.pd_card p {
+#pokemon-sobre-heigth_Width span,
+#pokemon-sobre-heigth_Width span:first-child {
   font-weight: 600;
 }
 
-.pokemon-details_hw > h6 {
-  margin-top: calc(8px + 1.5625vw);
+#pokemon-sobre-heigth_Width span:first-child {
+  opacity: 0.5;
 }
 
-.pd_listaHabilidade {
-  list-style-type: none;
+#pokemon-sobre-heigth_Width button {
+    width: 100%;
 }
 
-.pd_listaHabilidade i {
-  color: green;
+#pokemon-sobre > div {
+    padding: 15px 0;
 }
 
-.pd_item_habilidade {
-  display: flex;
-}
+@media (min-width: 600px) {
+  #pokemon-details_intro {
+    display: flex;
+    padding: calc(8px + 1.5625vw);
+    justify-content: center;
+    flex-direction: row-reverse;
+  }
 
-.tab-pane > div {
-  padding: calc(8px + 1.5625vw);
-}
-
-@media (min-width:600px) {
-    #pokemon-details_intro {
-        display: flex;
-        padding: calc(8px + 1.5625vw);
-        justify-content: center;
-        flex-direction: row-reverse;
-    }
-    
-    #pokemon-details_intro > div {
-        padding: 50px 20px;
-    }
+  #pokemon-details_intro > div {
+    padding: 50px 20px;
+  }
 }

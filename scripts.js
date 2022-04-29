@@ -126,22 +126,82 @@ const montarHtml_detalhesPokemon = (pokemon) => {
 
   setBackgroundColor_pokemonType(container_detalhes, tipoPokemon);
 
+  console.log("ENTRADA:", pokemon);
+
   montarHtml_detalhesPokemon_intro(pokemon);
+  montarHtml_detalhesSobre(pokemon);
+  montarHtml_detalhesEstatisticas(pokemon);
+  montarHtml_detalhesEvolucao(pokemon);
+};
+
+const montarHtml_detalhesSobre = (sobre) => {
+  montarHtml_detalhesSobre_heigth_Width(sobre);
+  montarHtml_detalhesSobre_habilidades(sobre);
+};
+
+const montarHtml_detalhesSobre_habilidades = (sobre) => {
+  var elemento_sobre = document.querySelector(
+    '[id="pokemon-sobre-habilidades"]'
+  );
+  const html = `
+  ${sobre.abilities.map((hab) => hab.is_hidden ? `
+  <div class="col">
+    <button type="button" class="btn btn-secondary w-100" >${hab.ability.name}</button>
+  </div>
+  ` : "").join("")}
+  `;
+  elemento_sobre.innerHTML = html;
+};
+
+const montarHtml_detalhesSobre_heigth_Width = (sobre) => {
+  var elemento_sobre = document.querySelector(
+    '[id="pokemon-sobre-heigth_Width"]'
+  );
+  const html = `
+  <div>
+  <span>Altura:</span>
+  <span>${sobre.height * 10}cm</span>
+</div>
+<div>
+  <span>Peso:</span>
+  <span>${sobre.weight / 10}kg</span>
+</div>
+  `;
+  elemento_sobre.innerHTML = html;
+};
+const montarHtml_detalhesEstatisticas = (pokemon) => {
+  var elemento_estatisticas = document.querySelector(
+    '[id="pokemon-estatisticas"]'
+  );
+  const html = `
+  <p>estatisticas</p>
+  `;
+  elemento_estatisticas.innerHTML = html;
+};
+const montarHtml_detalhesEvolucao = (pokemon) => {
+  var elemento_evolucao = document.querySelector('[id="pokemon-evolucao"]');
+  const html = `
+  <p>evolucao</p>
+  `;
+  elemento_evolucao.innerHTML = html;
 };
 
 const montarHtml_detalhesPokemon_intro = (pokemon) => {
   //monta os itens de HTML que são a introdução ao pokemon que são Nome, numero e tipo
   var elemento_intro = document.querySelector('[id="pokemon-details_intro"]');
-  console.log("POKEMON",pokemon)
+  const id_pokemon = pokemon.order.toString().padStart(3, "0");
   const html = `
   <div>
-  <h1>${pokemon.species.name}#${pokemon.order}</h1>
+  <h1>${pokemon.species.name}#${id_pokemon}</h1>
   <div>
-    <span class="badge">Grass</span>
-    <span class="badge">Poison</span>
+   ${pokemon.types
+     .map((t) => `<span class="badge"> ${t.type.name}</span>`)
+     .join(" ")}
   </div>
 </div>
-<img src="001.png" class="img-fluid" alt="" />
+<img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id_pokemon}.png"" class="img-fluid" alt="imagem do pokemon ${
+    pokemon.species.name
+  }" />
   `;
   elemento_intro.innerHTML = html;
 };
