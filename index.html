@@ -26,16 +26,213 @@
       <nav class="navbar navbar-light bg-light">
         <div class="container-fluid justify-content-end">
           <form class="d-flex">
-            <input id="search-input" class="form-control me-2" type="search" placeholder="Ex.:Jigglypuff" aria-label="Search">
-            <button id="search-button" class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+            <button id="apagar" type="button" class="btn btn-primary">
+              CLEAN
+            </button>
+            <input
+              id="search-input"
+              class="form-control me-2"
+              type="search"
+              placeholder="Ex.:Jigglypuff"
+              aria-label="procurar-pokemon"
+              required
+              value="ivysaur"
+            />
+            <button
+              id="search-button"
+              class="btn btn-outline-success"
+              type="submit"
+            >
+              <i class="bi bi-search"></i>
+            </button>
           </form>
         </div>
       </nav>
     </header>
     <main>
-      <div class="container">
-        <div class="row g-3" data-js="pokedex">
-        </div>
+      <div id="cards" class="container">
+        <h3>Pokemons capturados</h3>
+        <div class="row g-3" id="item-card"></div>
+      </div>
+
+      <div id="details" class="container">
+        <section class="pokemon-details">
+          <header>
+            <button type="button" class="btn">
+              <i class="bi bi-arrow-return-left"></i>
+            </button>
+            <button type="button" class="btn">
+              <i class="bi bi-plus"></i>
+            </button>
+          </header>
+          <section>
+            <header>
+              <h1>Bulbasaur</h1>
+              <p style="float: right">N°001</p>
+              <div>
+                <span class="badge">Grass</span>
+                <span class="badge">Poison</span>
+              </div>
+            </header>
+          </section>
+          <img src="001.png" class="img-fluid" alt="" />
+          <div class="card">
+            <nav>
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button
+                  class="nav-link active"
+                  id="nav-home-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-sobre"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-sobre"
+                  aria-selected="true"
+                >
+                  Sobre
+                </button>
+                <button
+                  class="nav-link"
+                  id="nav-estatisticas-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-estatisticas"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-estatisticas"
+                  aria-selected="false"
+                >
+                  Estatísticas
+                </button>
+                <button
+                  class="nav-link"
+                  id="nav-evolucao-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-evolucao"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-evolucao"
+                  aria-selected="false"
+                >
+                  Evolução
+                </button>
+              </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div
+                class="tab-pane fade show active"
+                id="nav-sobre"
+                role="tabpanel"
+                aria-labelledby="nav-sobre-tab"
+              >
+                <div class="pokemon-details_hw">
+                  <div class="pd_card">
+                    <div>
+                      <span>Altura</span>
+                      <p>0,70cm</p>
+                    </div>
+                    <div>
+                      <span>Peso</span>
+                      <p>6,9kg</p>
+                    </div>
+                  </div>
+                  <h6>Habilidades</h6>
+                  <ul class="pd_listaHabilidade">
+                    <li><i class="bi bi-check-lg"></i> jogar bola</li>
+                    <li><i class="bi bi-check-lg"></i> jogar bola</li>
+                    <li><i class="bi bi-check-lg"></i> jogar bola</li>
+                  </ul>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="nav-estatisticas"
+                role="tabpanel"
+                aria-labelledby="nav-estatisticas-tab"
+              >
+                <div class="pd_estatisticas">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-2">HP</div>
+                      <div class="col-2">45</div>
+                      <div class="col">
+                        <div class="progress">
+                          <div
+                            class="progress-bar"
+                            role="progressbar"
+                            style="width: 25%"
+                            aria-valuenow="25"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-2">HP</div>
+                      <div class="col-2">45</div>
+                      <div class="col">
+                        <div class="progress">
+                          <div
+                            class="progress-bar"
+                            role="progressbar"
+                            style="width: 25%"
+                            aria-valuenow="25"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-2">HP</div>
+                      <div class="col-2">45</div>
+                      <div class="col">
+                        <div class="progress">
+                          <div
+                            class="progress-bar"
+                            role="progressbar"
+                            style="width: 25%"
+                            aria-valuenow="25"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-2">HP</div>
+                      <div class="col-2">45</div>
+                      <div class="col">
+                        <div class="progress">
+                          <div
+                            class="progress-bar"
+                            role="progressbar"
+                            style="width: 25%"
+                            aria-valuenow="25"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="nav-evolucao"
+                role="tabpanel"
+                aria-labelledby="nav-evolução-tab"
+              >
+                <div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="pagina-vazia" class="container">
+        <h1>Nada foi encontrado</h1>
       </div>
     </main>
     <!-- Bootstrap Bundle with Popper -->

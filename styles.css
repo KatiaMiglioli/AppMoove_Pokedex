@@ -1,33 +1,48 @@
 .card-pokemon {
-    background-color: #757575;
-    padding: .5vw;
-    cursor: pointer;
-    transition: all .2s ease-in-out;
+  background-color: #757575;
+  padding: 0.5vw;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .card-pokemon:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
-
 .card-pokemon .card-body {
-    background-color: aliceblue;
-    border-radius: 5px;
+  background-color: aliceblue;
+  border-radius: 5px;
 }
 
 .pokemon_badge {
-    background-color: #757575;
-    opacity: .5;
+  background-color: #757575;
+  opacity: 0.5;
 }
 
+.container#cards div#item-card,
+.container#carregando,
+.container#details {
+    display: none;
+    border-radius: 10px;
+}
+
+#pagina-vazia {
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+    color: #757575;
+    opacity: .2;
+}
 
 /* CSS - DETALHES SOBRE POKEMON */
-.pokemon-details,.pokemon-details_hw,.container{
+.pokemon-details,
+.pokemon-details_hw,
+.container {
   padding: calc(8px + 1.5625vw);
 }
 
 p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .pokemon-details > header {
@@ -50,30 +65,31 @@ p {
 }
 
 .pd_card span {
-    opacity: .4;
-    font-size: 0.9em;
+  opacity: 0.4;
+  font-size: 0.9em;
 }
 
 .pd_card p {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .pokemon-details_hw > h6 {
-    margin-top: calc(8px + 1.5625vw);
+  margin-top: calc(8px + 1.5625vw);
 }
 
 .pd_listaHabilidade {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 .pd_listaHabilidade i {
-    color:green;
+  color: green;
 }
 
 .pd_item_habilidade {
-    display: flex;
+  display: flex;
 }
 
 .tab-pane > div {
-    padding: calc(8px + 1.5625vw);
+  padding: calc(8px + 1.5625vw);
 }
+

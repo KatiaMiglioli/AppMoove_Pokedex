@@ -1,17 +1,51 @@
-const getPokemonUrl = (id) => `https://pokeapi.co/api/v2/pokemon/${id}`;
-const generatePokemonPromises = () =>
-  Array(150)
-    .fill()
-    .map((_, index) =>
-      fetch(getPokemonUrl(index + 1)).then((response) => response.json())
-    );
+const localStotage_name = "pokemosCapturados";
 
-const generateHTML = (pokemons) => {
-  return pokemons.reduce((accumulator, { name, id, types }) => {
-    const elementTypes = types.map((typeInfo) => typeInfo.type.name);
+const container_detalhes = document.querySelector('[id="details"]'),
+  container_card = document.querySelector('[id="cards"]'),
+  item_card = document.querySelector('[id="item-card"]'),
+  container_paginaVazia = document.querySelector('[id="pagina-vazia"]');
 
+const colours = {
+  normal: "#A8A77A",
+  fire: "#EE8130",
+  water: "#6390F0",
+  electric: "#F7D02C",
+  grass: "#7AC74C",
+  ice: "#96D9D6",
+  fighting: "#C22E28",
+  poison: "#A33EA1",
+  ground: "#E2BF65",
+  flying: "#A98FF3",
+  psychic: "#F95587",
+  bug: "#A6B91A",
+  rock: "#B6A136",
+  ghost: "#735797",
+  dragon: "#6F35FC",
+  dark: "#705746",
+  steel: "#B7B7CE",
+  fairy: "#D685AD",
+};
+
+const getPokemonByName = (query) => {
+  fetch("https://pokeapi.co/api/v2/pokemon/" + query)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("COMEÇOU A PUTARIA!!!");
+      montarHtml_detalherPokemon(data);
+    })
+    .catch((err) => setHTML_pokemonNaoEncontrado(err));
+};
+
+const setHTML_pokemonNaoEncontrado = (err) => {
+  console.error(err);
+  const html_pokemonNaoEncontrado = `<p>NAO ACHOU NINGUEM TRUTA</p>`;
+  inserirHTMLContainer(html_pokemonNaoEncontrado);
+};
+
+const gerarCardPokemos = (pokemons) => {
+  const html = pokemons.reduce((accumulator) => {
     accumulator += `
-    <div class="col-12 .col-sm-6 col-md-4 .col-xl-3">
+    <div class="col-12 .col-sm-6 col-md-3">
     <div class="card text-center card-pokemon">
       <img src="001.png" class="card-img-top" alt="...">
       <div class="card-body">
@@ -26,16 +60,80 @@ const generateHTML = (pokemons) => {
     `;
     return accumulator;
   }, "");
+  //Se encaixaria uma promisse?
+  setTimeout(() => {
+    container_paginaVazia.style.display = "none";
+    inserirHTMLContainer(html);
+  }, 1000);
 };
 
-const insertPokemonsIntoPage = (pokemons) => {
-  const ul = document.querySelector('[data-js="pokedex"]');
-  ul.innerHTML = pokemons;
+const inserirHTMLContainer = (html) => {
+  item_card.innerHTML = html;
 };
 
-const pokemonPromises = generatePokemonPromises();
+document
+  .querySelector('[id="search-button"]')
+  .addEventListener("click", (event) => {
+    event.preventDefault();
+    var querySearchInput = document
+      .querySelector('[id="search-input"]')
+      .value.toLowerCase();
+    if (querySearchInput.length) {
+      getPokemonByName(querySearchInput);
+    } else {
+      //SEM ENTRADA
+    }
+  });
 
-Promise.all(pokemonPromises).then(generateHTML).then(insertPokemonsIntoPage);
+const setPokemons_localStorage = (pokemonAdicional) => {
+  var arrayPokemons = Array();
+  var pokemosCapturados = window.localStorage.getItem(localStotage_name);
+
+  if (pokemosCapturados != null) {
+    arrayPokemons = JSON.parse(pokemosCapturados);
+  }
+  arrayPokemons.push(pokemonAdicional);
+  window.localStorage.setItem(localStotage_name, JSON.stringify(arrayPokemons));
+};
+
+const getPokemons_localStorage = () => {
+  var pokemosCapturados = JSON.parse(
+    window.localStorage.getItem(localStotage_name)
+  );
+
+  if (pokemosCapturados != null) {
+    gerarCardPokemos(pokemosCapturados);
+  }
+};
+
+document.querySelector('[id="apagar').addEventListener("click", (event) => {
+  event.preventDefault();
+  window.localStorage.clear();
+  var pokemosCapturados = JSON.parse(
+    window.localStorage.getItem(localStotage_name)
+  );
+  console.log("ESTORAGE VAZIO?", pokemosCapturados);
+});
+getPokemons_localStorage();
+
+//Desabilita a tela de possiveis telas anteriores e habilita a tela de detalhes
+const montarHtml_detalherPokemon = (pokemon) => {
+  container_paginaVazia.style.display = "none";
+  container_card.style.display = "none";
+  container_detalhes.style.display = "block";
+
+  var tipoPokemon = pokemon.types[0].type.name;
+
+  setBackgroundColor_pokemonType(container_detalhes,tipoPokemon);
+
+  console.log("ENTRADA:", pokemon);
+};
+
+const setBackgroundColor_pokemonType = (elemento, typePokemon) => {
+   elemento.style.backgroundColor = colours[typePokemon];
+};
+
+//
 
 // ---- JS - DETALHES DO POKEMON ----
 // const getPokemon = async (id) => {
