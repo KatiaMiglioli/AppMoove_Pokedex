@@ -31,7 +31,7 @@ const getPokemonByName = (query) => {
     .then((response) => response.json())
     .then((data) => {
       console.log("COMEÇOU A PUTARIA!!!");
-      montarHtml_detalherPokemon(data);
+      montarHtml_detalhesPokemon(data);
     })
     .catch((err) => setHTML_pokemonNaoEncontrado(err));
 };
@@ -117,20 +117,37 @@ document.querySelector('[id="apagar').addEventListener("click", (event) => {
 getPokemons_localStorage();
 
 //Desabilita a tela de possiveis telas anteriores e habilita a tela de detalhes
-const montarHtml_detalherPokemon = (pokemon) => {
+const montarHtml_detalhesPokemon = (pokemon) => {
   container_paginaVazia.style.display = "none";
   container_card.style.display = "none";
   container_detalhes.style.display = "block";
 
   var tipoPokemon = pokemon.types[0].type.name;
 
-  setBackgroundColor_pokemonType(container_detalhes,tipoPokemon);
+  setBackgroundColor_pokemonType(container_detalhes, tipoPokemon);
 
-  console.log("ENTRADA:", pokemon);
+  montarHtml_detalhesPokemon_intro(pokemon);
+};
+
+const montarHtml_detalhesPokemon_intro = (pokemon) => {
+  //monta os itens de HTML que são a introdução ao pokemon que são Nome, numero e tipo
+  var elemento_intro = document.querySelector('[id="pokemon-details_intro"]');
+  console.log("POKEMON",pokemon)
+  const html = `
+  <div>
+  <h1>${pokemon.species.name}#${pokemon.order}</h1>
+  <div>
+    <span class="badge">Grass</span>
+    <span class="badge">Poison</span>
+  </div>
+</div>
+<img src="001.png" class="img-fluid" alt="" />
+  `;
+  elemento_intro.innerHTML = html;
 };
 
 const setBackgroundColor_pokemonType = (elemento, typePokemon) => {
-   elemento.style.backgroundColor = colours[typePokemon];
+  elemento.style.backgroundColor = colours[typePokemon];
 };
 
 //

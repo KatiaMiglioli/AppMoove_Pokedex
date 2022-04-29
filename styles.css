@@ -54,6 +54,10 @@ p {
   background-color: rgba(255, 255, 255, 0.25);
 }
 
+#pokemon-details_intro h1 {
+    text-transform: capitalize;
+}
+
 .pd_card {
   display: flex;
   border-radius: 10px;
@@ -93,3 +97,15 @@ p {
   padding: calc(8px + 1.5625vw);
 }
 
+@media (min-width:600px) {
+    #pokemon-details_intro {
+        display: flex;
+        padding: calc(8px + 1.5625vw);
+        justify-content: center;
+        flex-direction: row-reverse;
+    }
+    
+    #pokemon-details_intro > div {
+        padding: 50px 20px;
+    }
+}
