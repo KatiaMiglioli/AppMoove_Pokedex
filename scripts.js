@@ -80,7 +80,7 @@ document
     if (querySearchInput.length) {
       getPokemonByName(querySearchInput);
     } else {
-      //SEM ENTRADA
+      getPokemons_localStorage();
     }
   });
 
@@ -95,6 +95,12 @@ const setPokemons_localStorage = (pokemonAdicional) => {
   window.localStorage.setItem(localStotage_name, JSON.stringify(arrayPokemons));
 };
 
+const displayNoneEmMassa = (telaExibida) => {
+  container_detalhes.style.display = telaExibida == 'detalhes' ? '' : 'none';
+  container_card.style.display = telaExibida == 'cards' ? 'block' : 'none';
+  container_paginaVazia.style.display = telaExibida == 'nada' ? 'flex' : 'none';
+}
+
 const getPokemons_localStorage = () => {
   var pokemosCapturados = JSON.parse(
     window.localStorage.getItem(localStotage_name)
@@ -102,16 +108,10 @@ const getPokemons_localStorage = () => {
 
   if (pokemosCapturados != null) {
     gerarCardPokemos(pokemosCapturados);
+  }else{
+    displayNoneEmMassa('nada');
   }
 };
-
-document.querySelector('[id="apagar').addEventListener("click", (event) => {
-  event.preventDefault();
-  window.localStorage.clear();
-  var pokemosCapturados = JSON.parse(
-    window.localStorage.getItem(localStotage_name)
-  );
-});
 getPokemons_localStorage();
 
 //Desabilita a tela de possiveis telas anteriores e habilita a tela de detalhes
@@ -288,20 +288,3 @@ const montarHtml_estatisticas_progressBar = (titulo,id_elemento, valor) => {
 const setBackgroundColor_pokemonType = (elemento, typePokemon) => {
   elemento.style.backgroundColor = colours[typePokemon];
 };
-
-//
-
-// ---- JS - DETALHES DO POKEMON ----
-// const getPokemon = async (id) => {
-//   const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
-//   const res = await fetch(url);
-//   const pokemon = await res.json();
-//   console.log("POKEMON:",pokemon)
-// };
-
-// const showPokemonDetails = (pokemon) => {
-
-//   getPokemon(1);
-// };
-
-// showPokemonDetails();
