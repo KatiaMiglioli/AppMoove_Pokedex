@@ -30,7 +30,6 @@ const getPokemonByName = (query) => {
   fetch("https://pokeapi.co/api/v2/pokemon/" + query)
     .then((response) => response.json())
     .then((data) => {
-      console.log("COMEÇOU A PUTARIA!!!");
       montarHtml_detalhesPokemon(data);
     })
     .catch((err) => setHTML_pokemonNaoEncontrado(err));
@@ -112,7 +111,6 @@ document.querySelector('[id="apagar').addEventListener("click", (event) => {
   var pokemosCapturados = JSON.parse(
     window.localStorage.getItem(localStotage_name)
   );
-  console.log("ESTORAGE VAZIO?", pokemosCapturados);
 });
 getPokemons_localStorage();
 
@@ -125,8 +123,6 @@ const montarHtml_detalhesPokemon = (pokemon) => {
   var tipoPokemon = pokemon.types[0].type.name;
 
   setBackgroundColor_pokemonType(container_detalhes, tipoPokemon);
-
-  console.log("ENTRADA:", pokemon);
 
   montarHtml_detalhesPokemon_intro(pokemon);
   montarHtml_detalhesSobre(pokemon);
@@ -144,11 +140,17 @@ const montarHtml_detalhesSobre_habilidades = (sobre) => {
     '[id="pokemon-sobre-habilidades"]'
   );
   const html = `
-  ${sobre.abilities.map((hab) => hab.is_hidden ? `
+  ${sobre.abilities
+    .map((hab) =>
+      hab.is_hidden
+        ? `
   <div class="col">
     <button type="button" class="btn btn-secondary w-100" >${hab.ability.name}</button>
   </div>
-  ` : "").join("")}
+  `
+        : ""
+    )
+    .join("")}
   `;
   elemento_sobre.innerHTML = html;
 };
@@ -170,20 +172,82 @@ const montarHtml_detalhesSobre_heigth_Width = (sobre) => {
   elemento_sobre.innerHTML = html;
 };
 const montarHtml_detalhesEstatisticas = (pokemon) => {
-  var elemento_estatisticas = document.querySelector(
-    '[id="pokemon-estatisticas"]'
-  );
-  const html = `
-  <p>estatisticas</p>
-  `;
-  elemento_estatisticas.innerHTML = html;
+  var v_hp =  v_defesa =  v_ataque = v_velocidade = 0;
+
+  v_hp = pokemon.stats.find((i) => i.stat.name == "hp");
+  v_defesa = pokemon.stats.find((i) => i.stat.name == "defense");
+  v_ataque = pokemon.stats.find((i) => i.stat.name == "attack");
+  v_velocidade = pokemon.stats.find((i) => i.stat.name == "speed");
+  
+  montarHtml_estatisticas_progressBar("HP","est-hp",v_hp.base_stat)
+  montarHtml_estatisticas_progressBar("Defesa","est-defesa",v_defesa.base_stat)
+  montarHtml_estatisticas_progressBar("Ataque","est-ataque",v_ataque.base_stat)
+  montarHtml_estatisticas_progressBar("Velocidade","est-velocidade",v_velocidade.base_stat)
+
 };
+
 const montarHtml_detalhesEvolucao = (pokemon) => {
-  var elemento_evolucao = document.querySelector('[id="pokemon-evolucao"]');
-  const html = `
-  <p>evolucao</p>
-  `;
-  elemento_evolucao.innerHTML = html;
+var listaPokemos_evolucao = [];
+ montarEvolucaoPokemon(pokemon).catch(console.error)//ERRO
+ .then((r) => {
+   var ctrl_insecao = 0;
+  getEvolutionChair(listaPokemos_evolucao,[r.chain],ctrl_insecao).then(()=>{
+    montarHtml_ItemEvolucao(listaPokemos_evolucao);
+  })
+ });
+};
+
+const montarHtml_ItemEvolucao = (listaPokemos) => {
+  const html = listaPokemos.reduce((accumulator) => {
+    accumulator += `
+    <div class="col-12 .col-sm-6 col-md-3">
+    html
+  </div>
+    `;
+    return accumulator;
+  }, "");
+  console.log("ddd",html)
+}
+
+const montarEvolucaoPokemon = async(pokemon) => {
+  const especie_pokemon_fetch = await fetch(pokemon.species.url);
+  if(especie_pokemon_fetch.status == 200) {
+    var data_especie_pokemon = await especie_pokemon_fetch.json();
+    const evolucao_pokemon = await fetch(data_especie_pokemon.evolution_chain.url);
+    if(evolucao_pokemon.status == 200){
+      var data_evolucao_pokemon = await evolucao_pokemon.json();
+      return data_evolucao_pokemon;
+    }
+  }
+    throw new Error(res.status); 
+}
+
+const getEvolutionChair = async(listaFinal_pokemon, chain_pokemon, ctrl_insecao) => {
+  ctrl_insecao++;
+  //ref.:https://stackoverflow.com/questions/39112862/pokeapi-angular-how-to-get-pokemons-evolution-chain
+  
+  //adiciona os dados interessados em um array de melhor acesso
+  var nomePokemon = chain_pokemon[0].species.name;
+  var idPokemon = 0;
+
+  var resp_pokemon = await fetch("https://pokeapi.co/api/v2/pokemon/" + nomePokemon);
+  if(resp_pokemon.status == 200){
+    var data_pokemon = await resp_pokemon.json();
+    idPokemon = data_pokemon.id;
+  }else{
+    throw new Error(res.status); 
+  }
+
+  await listaFinal_pokemon.push({ name: nomePokemon,id : idPokemon, ordem:ctrl_insecao });
+
+  //valida se o pokemon atual possui evolucao posterior
+  if (chain_pokemon[0].evolves_to.length > 0) {
+    // no objeto de pokemon possui item 'evolves_to' identico ao anterior formando uma cadeia até o pokemon não possui uma evolucao
+    await getEvolutionChair(listaFinal_pokemon,chain_pokemon[0].evolves_to,ctrl_insecao);
+  } else {
+   // listaFinal_pokemon.push(chain_pokemon[0].species.name);
+    return 0;
+  }
 };
 
 const montarHtml_detalhesPokemon_intro = (pokemon) => {
@@ -204,6 +268,21 @@ const montarHtml_detalhesPokemon_intro = (pokemon) => {
   }" />
   `;
   elemento_intro.innerHTML = html;
+};
+
+const montarHtml_estatisticas_progressBar = (titulo,id_elemento, valor) => {
+  var elemento_estatisticas = document.querySelector(
+    '[id="' + id_elemento + '"]'
+  );
+  const html = `
+  <div class="row" style="padding-top:10px"> 
+  <span class="col col-lg-3">${titulo}</span>
+  <div class="progress col" style="padding-left: 0; margin: 4px;">
+    <div  class="progress-bar ${valor > 60 ? 'bg-success': 'bg-warning'}" role="progressbar" aria-valuenow="${valor}" aria-valuemin="0" aria-valuemax="100" style="width: ${valor}%;">${valor}%</div>
+  </div>
+  </div>
+  `;
+  elemento_estatisticas.innerHTML = html;
 };
 
 const setBackgroundColor_pokemonType = (elemento, typePokemon) => {

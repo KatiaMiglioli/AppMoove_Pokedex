@@ -87,6 +87,14 @@ p {
     padding: 15px 0;
 }
 
+#pokemon-estatisticas span {
+    font-weight: 600;
+}
+
+#pokemon-estatisticas > .row {
+    margin-top: 10px;
+}
+
 @media (min-width: 600px) {
   #pokemon-details_intro {
     display: flex;
