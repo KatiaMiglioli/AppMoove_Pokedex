@@ -69,7 +69,7 @@ const gerarCardPokemos = (pokemons) => {
 const inserirHTMLContainer = (html) => {
   item_card.innerHTML = html;
 };
-
+//evento do botão de procura por Pokemons
 document
   .querySelector('[id="search-button"]')
   .addEventListener("click", (event) => {
@@ -82,6 +82,14 @@ document
     } else {
       getPokemons_localStorage();
     }
+  });
+
+// evento do botão que 'fecha' detalhe do pokemon
+document
+  .querySelector('[id="btn-close"]')
+  .addEventListener("click", (event) => {
+    event.preventDefault();
+    getPokemons_localStorage();
   });
 
 const setPokemons_localStorage = (pokemonAdicional) => {
@@ -112,7 +120,6 @@ const getPokemons_localStorage = () => {
     displayNoneEmMassa('nada');
   }
 };
-getPokemons_localStorage();
 
 //Desabilita a tela de possiveis telas anteriores e habilita a tela de detalhes
 const montarHtml_detalhesPokemon = (pokemon) => {
@@ -206,7 +213,6 @@ const montarHtml_ItemEvolucao = (listaPokemos) => {
     `;
     return accumulator;
   }, "");
-  console.log("ddd",html)
 }
 
 const montarEvolucaoPokemon = async(pokemon) => {
@@ -288,3 +294,5 @@ const montarHtml_estatisticas_progressBar = (titulo,id_elemento, valor) => {
 const setBackgroundColor_pokemonType = (elemento, typePokemon) => {
   elemento.style.backgroundColor = colours[typePokemon];
 };
+
+getPokemons_localStorage();
