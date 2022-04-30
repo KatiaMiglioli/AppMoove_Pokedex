@@ -3,6 +3,8 @@ const localStotage_name = "pokemosCapturados";
 const container_detalhes = document.querySelector('[id="details"]'),
   container_card = document.querySelector('[id="cards"]'),
   item_card = document.querySelector('[id="item-card"]'),
+  input_procurarPokemon = document.querySelector('[id="search-input"]'),
+  text_paginaVazia = document.querySelector('[id="texto-pagina-vazia"]'),
   container_paginaVazia = document.querySelector('[id="pagina-vazia"]');
 
 const colours = {
@@ -32,11 +34,16 @@ const getPokemonByName = (query) => {
     .then((data) => {
       montarHtml_detalhesPokemon(data);
     })
-    .catch((err) => setHTML_pokemonNaoEncontrado(err));
+    .catch(() => emitirMensagem_pokemonNaoEncontrado());
 };
 
-const setHTML_pokemonNaoEncontrado = (err) => {
-  console.error(err);
+const emitirMensagem_pokemonNaoEncontrado = () => {
+  setHTML_pokemonNaoEncontrado();
+  input_procurarPokemon.value = "";
+  text_paginaVazia.textContent="Nada foi encontrado";
+}
+
+const setHTML_pokemonNaoEncontrado = () => {
   const html_pokemonNaoEncontrado = `<p>NAO ACHOU NINGUEM TRUTA</p>`;
   inserirHTMLContainer(html_pokemonNaoEncontrado);
 };
@@ -74,11 +81,13 @@ document
   .querySelector('[id="search-button"]')
   .addEventListener("click", (event) => {
     event.preventDefault();
-    var querySearchInput = document
-      .querySelector('[id="search-input"]')
-      .value.toLowerCase();
+    var querySearchInput = input_procurarPokemon.value;
+
+    displayNoneEmMassa('nada');
+    text_paginaVazia.textContent="Procurando...";
+
     if (querySearchInput.length) {
-      getPokemonByName(querySearchInput);
+      getPokemonByName(querySearchInput.toLowerCase());
     } else {
       getPokemons_localStorage();
     }
