@@ -15,7 +15,7 @@ Projeto executado em cerca de 17hrs, porem imcompleto
 - Inconsistencia entre as imgs fornecidas pela API e o pokemon solicitado
 ## Como executar esse projeto?
 
-
+ Acesse https://katiamiglioli.github.io/
 
 ## Agradecimentos
 
