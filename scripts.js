@@ -28,14 +28,16 @@ const colours = {
   fairy: "#D685AD",
 };
 
-const getPokemonByName = (query) => {
+var pokemonAtual;
+
+function getPokemonByName(query) {
   fetch("https://pokeapi.co/api/v2/pokemon/" + query)
     .then((response) => response.json())
     .then((data) => {
       montarHtml_detalhesPokemon(data);
     })
     .catch(() => emitirMensagem_pokemonNaoEncontrado());
-};
+}
 
 const emitirMensagem_pokemonNaoEncontrado = () => {
   setHTML_pokemonNaoEncontrado();
@@ -49,16 +51,19 @@ const setHTML_pokemonNaoEncontrado = () => {
 };
 
 const gerarCardPokemos = (pokemons) => {
-  const html = pokemons.reduce((accumulator) => {
+  const html = pokemons.reduce((accumulator,pok) => {
+    const id_pokemon = pok.order.toString().padStart(3, "0");
+    const hp_pokemon = pok.stats.find((e)=>{
+      return e.stat.name == 'hp';
+    })
     accumulator += `
     <div class="col-12 .col-sm-6 col-md-3">
     <div class="card text-center card-pokemon">
-      <img src="001.png" class="card-img-top" alt="...">
+      <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id_pokemon}.png" class="card-img-top" alt="...">
       <div class="card-body">
-        <h5 class="card-title">Pokemon</h5>
+        <h5 class="card-title">${pok.name}</h5>
         <div>
-          <span class="badge pokemon_badge">Grama</span>
-          <span class="badge pokemon_badge">AGUA</span>
+          <span class="badge pokemon_badge">HP:${hp_pokemon.base_stat}</span>
         </div>
       </div>
     </div>
@@ -67,8 +72,9 @@ const gerarCardPokemos = (pokemons) => {
     return accumulator;
   }, "");
   //Se encaixaria uma promisse?
+  
   setTimeout(() => {
-    container_paginaVazia.style.display = "none";
+    displayNoneEmMassa("cards");
     inserirHTMLContainer(html);
   }, 1000);
 };
@@ -101,6 +107,13 @@ document
     getPokemons_localStorage();
   });
 
+// evento do botão de captura de pokemon
+document
+  .querySelector('[id="btn-capturar"]')
+  .addEventListener("click", (event) => {
+    event.preventDefault();
+    setPokemons_localStorage(pokemonAtual);
+  });
 const setPokemons_localStorage = (pokemonAdicional) => {
   var arrayPokemons = Array();
   var pokemosCapturados = window.localStorage.getItem(localStotage_name);
@@ -116,6 +129,7 @@ const displayNoneEmMassa = (telaExibida) => {
   container_detalhes.style.display = telaExibida == 'detalhes' ? '' : 'none';
   container_card.style.display = telaExibida == 'cards' ? 'block' : 'none';
   container_paginaVazia.style.display = telaExibida == 'nada' ? 'flex' : 'none';
+  item_card.style.display = telaExibida == 'cards' ? 'flex' : 'none';
 }
 
 const getPokemons_localStorage = () => {
@@ -126,6 +140,7 @@ const getPokemons_localStorage = () => {
   if (pokemosCapturados != null) {
     gerarCardPokemos(pokemosCapturados);
   }else{
+    text_paginaVazia.textContent = "Nada foi encontrado"
     displayNoneEmMassa('nada');
   }
 };
@@ -136,9 +151,13 @@ const montarHtml_detalhesPokemon = (pokemon) => {
   container_card.style.display = "none";
   container_detalhes.style.display = "block";
 
+  input_procurarPokemon.value = "";
+
   var tipoPokemon = pokemon.types[0].type.name;
 
   setBackgroundColor_pokemonType(container_detalhes, tipoPokemon);
+
+  pokemonAtual = pokemon;
 
   montarHtml_detalhesPokemon_intro(pokemon);
   montarHtml_detalhesSobre(pokemon);
@@ -278,11 +297,14 @@ const montarHtml_detalhesPokemon_intro = (pokemon) => {
      .join(" ")}
   </div>
 </div>
-<img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id_pokemon}.png"" class="img-fluid" alt="imagem do pokemon ${
+<img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id_pokemon}.png" class="img-fluid" alt="imagem do pokemon ${
     pokemon.species.name
   }" />
   `;
   elemento_intro.innerHTML = html;
+  document.querySelectorAll('.badge').forEach(el => el.addEventListener('click', event => {
+    console.log(el.innerHTML);
+  }));
 };
 
 const montarHtml_estatisticas_progressBar = (titulo,id_elemento, valor) => {
